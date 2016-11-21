@@ -23,11 +23,10 @@ public class EventAction {
     }
 
     public Object performAction() throws NotifierException {
-        checkPreConditions();
-        return null;
+        throw new RuntimeException("Method not implemented");
     }
 
-    private void checkPreConditions() throws NotifierException {
+    protected void checkPreConditions() throws NotifierException {
         if(eventDetails == null) {
             throw new NotifierException(NotifierError.NULL_EVENT_DETAILS);
         } else {

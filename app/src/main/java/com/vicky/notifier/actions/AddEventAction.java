@@ -21,7 +21,7 @@ public class AddEventAction extends EventAction {
 
     @Override
     public Object performAction() throws NotifierException {
-        super.performAction();
+        checkPreConditions();
         EventsDBUtil.insertEvent(eventDetails);
         return eventDetails.getEventID();
     }
