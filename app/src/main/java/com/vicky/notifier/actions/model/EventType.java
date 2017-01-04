@@ -7,6 +7,6 @@ public enum EventType {
     ADD_EVENT,
     UPDATE_EVENT,
     DELETE_EVENT,
-    GET_ALL_EVENT,
+    GET_ALL_EVENTS,
     GET_EVENT_DETAIL;
 }

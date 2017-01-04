@@ -9,21 +9,23 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.vicky.notifier.activity.AddEventActivity">
 
-    <CalendarView
-        android:id="@+id/event_date"
-        android:layout_width="match_parent"
-        android:layout_height="350dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="16dp"/>
-
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/event"
         android:hint="What's special on that day?"
+        android:background="@android:color/transparent"
+        android:cursorVisible="false"
         android:layout_marginTop="29dp"
-        android:layout_below="@+id/date_view"
         android:layout_centerHorizontal="true" />
+
+    <CalendarView
+        android:id="@+id/event_date"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:layout_marginBottom="16dp"
+        android:layout_below="@+id/event"
+        android:layout_marginTop="16dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -32,14 +34,5 @@
         android:id="@+id/date_view"
         android:layout_below="@+id/event_date"
         android:layout_centerHorizontal="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add Event"
-        android:id="@+id/add_button"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="24dp" />
 
 </RelativeLayout>

@@ -7,6 +7,7 @@ public class EventActionMessageConstants {
 
     public static final String EVENT_ACTION_DAY = "event_action_day";
     public static final String EVENT_ACTION_MONTH = "event_action_month";
+    public static final String EVENT_ACTION_YEAR = "event_action_year";
     public static final String EVENT_ACTION_EVENT = "event_action_event";
     public static final String EVENT_ACTION_EVENT_ID = "event_action_event_id";
     public static final String EVENT_ACTION_VALUES = "event_action_values";

@@ -13,6 +13,7 @@ import static com.vicky.notifier.database.DatabaseConstants.EVENT_DAY;
 import static com.vicky.notifier.database.DatabaseConstants.EVENT_ID;
 import static com.vicky.notifier.database.DatabaseConstants.EVENT_MONTH;
 import static com.vicky.notifier.database.DatabaseConstants.EVENT_NAME;
+import static com.vicky.notifier.database.DatabaseConstants.EVENT_YEAR;
 
 /**
  * Created by Vignesh Sivakumar on 28-10-2016.
@@ -28,6 +29,7 @@ public class QueryUtil {
                 EVENT_ID + " text primary key," +
                 EVENT_DAY + " integer," +
                 EVENT_MONTH + " integer," +
+                EVENT_YEAR + " integer," +
                 EVENT_NAME + " text)");
         onCreateQueries.put(DATABASE_NAME, queries);
     }

@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.vicky.notifier.R;
-
-import java.util.List;
+import com.vicky.notifier.event.BulkEventDetails;
+import com.vicky.notifier.event.EventDetails;
 
 public class EventsAdapter extends Adapter<EventsAdapter.EventViewHolder> {
     private BulkEventDetails bulkEventDetails;

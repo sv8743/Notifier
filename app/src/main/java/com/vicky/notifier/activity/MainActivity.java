@@ -3,7 +3,6 @@ package com.vicky.notifier.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +17,7 @@ import com.vicky.notifier.actions.model.EventActionMessage;
 import com.vicky.notifier.actions.model.EventType;
 import com.vicky.notifier.database.util.EventsDBUtil;
 import com.vicky.notifier.exception.NotifierException;
-import com.vicky.notifier.view.BulkEventDetails;
+import com.vicky.notifier.event.BulkEventDetails;
 import com.vicky.notifier.view.EventsAdapter;
 
 public class MainActivity extends AppCompatActivity {
@@ -70,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
     private void initRecyclerView() throws NotifierException {
         RecyclerView eventList = (RecyclerView) findViewById(R.id.events_list);
         eventList.setHasFixedSize(true);
-        EventActionMessage eventActionMessage = new EventActionMessage(EventType.GET_ALL_EVENT);
+        EventActionMessage eventActionMessage = new EventActionMessage(EventType.GET_ALL_EVENTS);
         BulkEventDetails bulkEventDetails = (BulkEventDetails) EventActionFactory.getEventAction(this, eventActionMessage).performAction();
         eventList.setAdapter(new EventsAdapter(bulkEventDetails));
         eventList.setLayoutManager(getLayoutManager());

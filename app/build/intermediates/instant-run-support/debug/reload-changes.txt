@@ -1,0 +1,5 @@
+CHANGED,D:\Notifier\app\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\com\vicky\notifier\R$id$override.class
+CHANGED,D:\Notifier\app\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\com\android\tools\fd\runtime\AppPatchesLoaderImpl.class
+CHANGED,D:\Notifier\app\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\com\vicky\notifier\view\EventsAdapter$EventViewHolder$override.class
+CHANGED,D:\Notifier\app\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\com\vicky\notifier\activity\AddEventActivity$NotifierDateChangeListener$override.class
+CHANGED,D:\Notifier\app\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\com\vicky\notifier\activity\AddEventActivity$override.class

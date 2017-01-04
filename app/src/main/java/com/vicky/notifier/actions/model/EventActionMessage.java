@@ -2,7 +2,9 @@ package com.vicky.notifier.actions.model;
 
 import com.vicky.notifier.actions.model.constants.EventActionMessageConstants;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by Vignesh Sivakumar on 27-10-2016.
@@ -10,7 +12,7 @@ import java.util.Map;
 public class EventActionMessage {
 
     private EventType eventType;
-    private Map<String, Object> messageMap;
+    private Map<String, Object> messageMap = new HashMap<String, Object>();
 
     public EventActionMessage(EventType eventType) {
         this.eventType = eventType;
@@ -30,6 +32,10 @@ public class EventActionMessage {
 
     public String getMonth() {
         return (String) messageMap.get(EventActionMessageConstants.EVENT_ACTION_MONTH);
+    }
+
+    public Integer getYear() {
+        return (Integer) messageMap.get(EventActionMessageConstants.EVENT_ACTION_YEAR);
     }
 
     public String getEvent() {

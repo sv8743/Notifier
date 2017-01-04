@@ -3,18 +3,20 @@ package com.vicky.notifier.database.util;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.text.format.DateFormat;
 
 import com.vicky.notifier.database.DatabaseHelper;
-import com.vicky.notifier.tools.UniqueIDGenerator;
-import com.vicky.notifier.view.BulkEventDetails;
-import com.vicky.notifier.view.EventDetails;
+import com.vicky.notifier.event.BulkEventDetails;
+import com.vicky.notifier.event.EventDetails;
 
+import java.util.Date;
 import java.util.Map;
 
 import static com.vicky.notifier.database.DatabaseConstants.EQUALS;
 import static com.vicky.notifier.database.DatabaseConstants.EVENT_DAY;
 import static com.vicky.notifier.database.DatabaseConstants.EVENT_ID;
 import static com.vicky.notifier.database.DatabaseConstants.EVENT_MONTH;
+import static com.vicky.notifier.database.DatabaseConstants.EVENT_YEAR;
 import static com.vicky.notifier.database.DatabaseConstants.EVENT_NAME;
 import static com.vicky.notifier.database.DatabaseConstants.DATABASE_NAME;
 import static com.vicky.notifier.database.DatabaseConstants.EVENTS_TABLE_NAME;
@@ -36,21 +38,30 @@ public class EventsDBUtil {
         contentValues.put(EVENT_ID, eventDetails.getEventID());
         contentValues.put(EVENT_DAY, eventDetails.getDay());
         contentValues.put(EVENT_MONTH, eventDetails.getMonthIndex());
+        contentValues.put(EVENT_YEAR, eventDetails.getYear());
         contentValues.put(EVENT_NAME, eventDetails.getEvent());
         dbHelper.insert(EVENTS_TABLE_NAME, contentValues);
     }
 
     public static BulkEventDetails getAllEvents() {
         BulkEventDetails bulkEventDetails = new BulkEventDetails();
-        Cursor results = dbHelper.executeQuery("select " + EVENT_DAY + "," + EVENT_MONTH + "," + EVENT_NAME + " FROM " +
-                EVENTS_TABLE_NAME + " ORDER BY " + EVENT_MONTH + " ASC", null);
+
+        Date today = new Date();
+        int day = Integer.parseInt((String) DateFormat.format("dd", today));
+        int month = Integer.parseInt((String) DateFormat.format("MM", today)) - 1;
+        int year = Integer.parseInt((String) DateFormat.format("yyyy", today));
+
+        Cursor results = dbHelper.executeQuery("select " + EVENT_DAY + "," + EVENT_MONTH + "," + EVENT_YEAR + "," + EVENT_NAME + " FROM " +
+                EVENTS_TABLE_NAME + " WHERE " + EVENT_DAY + ">=" + day + " AND " + EVENT_MONTH + ">=" + month + " AND " + EVENT_YEAR + ">=" +
+                year + " ORDER BY " + EVENT_YEAR + " DESC, " + EVENT_MONTH + " ASC, " + EVENT_DAY + " ASC", null);
 
         if (results.getCount() > 0) {
             results.moveToFirst();
             do {
-                int day = results.getInt(results.getColumnIndex(EVENT_DAY));
-                int month = results.getInt(results.getColumnIndex(EVENT_MONTH));
-                bulkEventDetails.addEvent(new EventDetails(day, MONTH_NAMES[month], results.getString(results.getColumnIndex(EVENT_NAME))));
+                day = results.getInt(results.getColumnIndex(EVENT_DAY));
+                month = results.getInt(results.getColumnIndex(EVENT_MONTH));
+                year = results.getInt(results.getColumnIndex(EVENT_YEAR));
+                bulkEventDetails.addEvent(new EventDetails(day, MONTH_NAMES[month], year, results.getString(results.getColumnIndex(EVENT_NAME))));
             } while (results.moveToNext());
         }
         results.close();
@@ -59,14 +70,15 @@ public class EventsDBUtil {
 
     public static EventDetails getEventDetail(String eventID) {
         EventDetails eventDetails = null;
-        Cursor cursor = dbHelper.executeQuery("select " + EVENT_DAY + "," + EVENT_MONTH + "," + EVENT_NAME + " FROM " +
+        Cursor cursor = dbHelper.executeQuery("select " + EVENT_DAY + "," + EVENT_MONTH + "," + EVENT_YEAR + "," + EVENT_NAME + " FROM " +
                 EVENTS_TABLE_NAME + " WHERE " + EVENT_MONTH + EQUALS, new String[] {eventID});
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
             int day = cursor.getInt(cursor.getColumnIndex(EVENT_DAY));
             int month = cursor.getInt(cursor.getColumnIndex(EVENT_MONTH));
+            int year = cursor.getInt(cursor.getColumnIndex(EVENT_YEAR));
             eventDetails = new EventDetails(cursor.getString(cursor.getColumnIndex(EVENT_ID)),
-                    day, MONTH_NAMES[month],
+                    day, MONTH_NAMES[month], year,
                     cursor.getString(cursor.getColumnIndex(EVENT_NAME)));
             cursor.close();
         }

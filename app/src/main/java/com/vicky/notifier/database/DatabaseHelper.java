@@ -15,8 +15,10 @@ public class DatabaseHelper extends SQLiteOpenHelper implements DatabaseInterfac
 
     public DatabaseHelper(Context context, String databaseName) {
         super(context, databaseName, null, 1);
+        getWritableDatabase();
     }
 
+    @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         List<String> queries = QueryUtil.getOnCreateQueries(getDatabaseName());
         if(queries != null) {
@@ -26,6 +28,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements DatabaseInterfac
         }
     }
 
+    @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
         List<String> queries = QueryUtil.getOnUpgradeQueries(getDatabaseName());
         if(queries != null) {
