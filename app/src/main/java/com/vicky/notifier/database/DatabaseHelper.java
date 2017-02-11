@@ -40,7 +40,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements DatabaseInterfac
 
     @Override
     public void insert(String tableName, ContentValues contentValues) {
-        getWritableDatabase().insert(tableName, null, contentValues);
+        getWritableDatabase().insertOrThrow(tableName, null, contentValues);
     }
 
     @Override

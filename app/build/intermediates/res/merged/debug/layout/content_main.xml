@@ -10,10 +10,16 @@
     android:paddingTop="0.25dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".activity.MainActivity"
+    android:id="@+id/cont_main"
     tools:showIn="@layout/activity_main">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/events_list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/events_list2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"/>
 </RelativeLayout>

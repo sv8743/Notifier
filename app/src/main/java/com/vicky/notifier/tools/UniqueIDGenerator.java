@@ -10,7 +10,7 @@ public class UniqueIDGenerator {
     }
 
     public static String getNewUUID() {
-        return UUID.randomUUID().toString();
+        return Long.toString(System.currentTimeMillis());
     }
 
     public static int getNewID() {

@@ -3,46 +3,64 @@ package com.vicky.notifier.view;
 import android.support.v7.widget.RecyclerView.Adapter;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.vicky.notifier.R;
 import com.vicky.notifier.event.BulkEventDetails;
 import com.vicky.notifier.event.EventDetails;
 
-public class EventsAdapter extends Adapter<EventsAdapter.EventViewHolder> {
-    private BulkEventDetails bulkEventDetails;
+public class EventsAdapter extends Adapter<ViewHolder> {
 
-    public class EventViewHolder extends ViewHolder {
-        protected TextView day;
-        protected TextView event;
-        protected TextView month;
+    static final int PERIOD_TYPE = 0;
+    static final int EVENT_TYPE = 1;
+    static final int DUMMY_TYPE = 2;
 
-        public EventViewHolder(View itemView) {
-            super(itemView);
-            this.day = (TextView) itemView.findViewById(R.id.day);
-            this.month = (TextView) itemView.findViewById(R.id.month);
-            this.event = (TextView) itemView.findViewById(R.id.event);
+    private EventViewDetails eventViewDetails;
+
+    public EventsAdapter(BulkEventDetails bulkEventDetails) {
+        this.eventViewDetails = new EventViewDetails(bulkEventDetails);
+    }
+
+    public int getItemViewType(int position) {
+        return eventViewDetails.getEventViewType(position);
+    }
+
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        switch (viewType) {
+            case EVENT_TYPE:
+                return new EventViewHolder(LayoutInflater.from(parent.getContext()).inflate(
+                        R.layout.events_layout, parent, false), false);
+            case PERIOD_TYPE:
+                return new PeriodViewHolder(LayoutInflater.from(parent.getContext()).inflate(
+                        R.layout.period_layout, parent, false), false);
+            case DUMMY_TYPE:
+                return new PeriodViewHolder(LayoutInflater.from(parent.getContext()).inflate(
+                        R.layout.period_layout, parent, false), true);
+        }
+        return null;
+    }
+
+    public void onBindViewHolder(ViewHolder viewHolder, int position) {
+        if (viewHolder != null) {
+            if (viewHolder instanceof PeriodViewHolder) {
+                if(!((PeriodViewHolder) viewHolder).isDummy()) {
+                    ((PeriodViewHolder) viewHolder).setPeriod(
+                            eventViewDetails.getPeriodText(position));
+                }
+            } else {
+                if(!((EventViewHolder) viewHolder).isDummy()) {
+                    EventDetails eventDetails = eventViewDetails.getEventDetails(position);
+                    if (eventDetails != null) {
+                        ((EventViewHolder) viewHolder).setDay(eventDetails.getDay());
+                        ((EventViewHolder) viewHolder).setMonth(eventDetails.getMonth());
+                        ((EventViewHolder) viewHolder).setEvent(eventDetails.getEvent());
+                    }
+                }
+            }
         }
     }
 
-    public EventsAdapter(BulkEventDetails bulkEventDetails) {
-        this.bulkEventDetails = bulkEventDetails;
-    }
-
-    public EventViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new EventViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.events_layout, parent, false));
-    }
-
-    public void onBindViewHolder(EventViewHolder holder, int position) {
-        EventDetails eventDetails = (EventDetails) this.bulkEventDetails.get(position);
-        holder.day.setText(eventDetails.getDay());
-        holder.month.setText(eventDetails.getMonth());
-        holder.event.setText(eventDetails.getEvent());
-    }
-
     public int getItemCount() {
-        return this.bulkEventDetails.size();
+        return eventViewDetails.getItemCount();
     }
 }

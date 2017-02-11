@@ -8,6 +8,7 @@ import android.text.format.DateFormat;
 import com.vicky.notifier.database.DatabaseHelper;
 import com.vicky.notifier.event.BulkEventDetails;
 import com.vicky.notifier.event.EventDetails;
+import com.vicky.notifier.tools.Today;
 
 import java.util.Date;
 import java.util.Map;
@@ -46,25 +47,26 @@ public class EventsDBUtil {
     public static BulkEventDetails getAllEvents() {
         BulkEventDetails bulkEventDetails = new BulkEventDetails();
 
-        Date today = new Date();
-        int day = Integer.parseInt((String) DateFormat.format("dd", today));
-        int month = Integer.parseInt((String) DateFormat.format("MM", today)) - 1;
-        int year = Integer.parseInt((String) DateFormat.format("yyyy", today));
+        Today today = new Today();
 
         Cursor results = dbHelper.executeQuery("select " + EVENT_DAY + "," + EVENT_MONTH + "," + EVENT_YEAR + "," + EVENT_NAME + " FROM " +
-                EVENTS_TABLE_NAME + " WHERE " + EVENT_DAY + ">=" + day + " AND " + EVENT_MONTH + ">=" + month + " AND " + EVENT_YEAR + ">=" +
-                year + " ORDER BY " + EVENT_YEAR + " DESC, " + EVENT_MONTH + " ASC, " + EVENT_DAY + " ASC", null);
+                EVENTS_TABLE_NAME, null);
+
+        /*Cursor results = dbHelper.executeQuery("select " + EVENT_DAY + "," + EVENT_MONTH + "," + EVENT_YEAR + "," + EVENT_NAME + " FROM " +
+                EVENTS_TABLE_NAME + " WHERE " + EVENT_DAY + ">=" + today.getDay() + " AND " + EVENT_MONTH + ">=" + today.getMonth() + " AND " + EVENT_YEAR + ">=" +
+                today.getYear() + " ORDER BY " + EVENT_YEAR + " ASC, " + EVENT_MONTH + " ASC, " + EVENT_DAY + " ASC", null);*/
 
         if (results.getCount() > 0) {
             results.moveToFirst();
             do {
-                day = results.getInt(results.getColumnIndex(EVENT_DAY));
-                month = results.getInt(results.getColumnIndex(EVENT_MONTH));
-                year = results.getInt(results.getColumnIndex(EVENT_YEAR));
+                int day = results.getInt(results.getColumnIndex(EVENT_DAY));
+                int month = results.getInt(results.getColumnIndex(EVENT_MONTH));
+                int year = results.getInt(results.getColumnIndex(EVENT_YEAR));
                 bulkEventDetails.addEvent(new EventDetails(day, MONTH_NAMES[month], year, results.getString(results.getColumnIndex(EVENT_NAME))));
             } while (results.moveToNext());
         }
         results.close();
+        bulkEventDetails.finalize();
         return bulkEventDetails;
     }
 

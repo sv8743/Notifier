@@ -59,4 +59,8 @@ public class EventDetails {
         }
         return 0;
     }
+
+    public String toString() {
+        return eventID + " " + day + " " + month + " " + year + " - " + event;
+    }
 }
